@@ -1,4 +1,4 @@
-.game-screen {
+.game-screenshot {
   border: 3px solid black;
   margin-top: 10px;
   height: 50%;
@@ -25,17 +25,10 @@
   font-size: 20px;
 }
 
-
 #play-button:hover {
   -webkit-transform: scale(1.3);
   -ms-transform: scale(1.3);
   transform: scale(1.3);
-}
-
-div {
-  background-image: url("https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/weather/cloud/cumulus-cloud.jpg");
-  height: 100vh;
-  width: 100vw;
 }
 
 h3 {
@@ -45,32 +38,6 @@ h3 {
   float: right;
 } 
 
-#timer {
-  float: left;
-  margin-left: 30px;
-}
-
-#clickAnywhere {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: burlywood;
-  padding-left: 40px;
-  padding-bottom: 15px;
-  font-weight: bold;
-  color: red;
-}
-
-#instructions {
-  text-align: center;
-  font-size: 50px;
-  padding-top: 30px;
-  font-weight: bold;
-  position: absolute;
-  margin-left: 30%;
-}
-
 p {
   width: 50%;
   margin: 0 auto;
@@ -78,12 +45,3 @@ p {
   text-indent: 25px;
 }
 
-
-#balloon-gif, #game-over-gif {
-  height: 60vh;
-  width: 40vw;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
