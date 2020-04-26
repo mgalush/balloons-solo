@@ -1,45 +1,38 @@
-
-function Game() {
+function Game(correctColor) {
   this.score = 0;
   this.target = document.getElementById('game');
-  this.correctColor = 'red';
+  this.correctColor = correctColor;
 }
 
-Game.prototype.startGame = function() {
+Game.prototype.startGame = function () {
   // start a timer for game
-  setTimeout( () => {
+  setTimeout(() => {
     this.endGame();
   }, 6000);
-  
+
   // start a timer for rendering of balloons
-  this.renderBalloonsInterval = setInterval( () => {
+  this.renderBalloonsInterval = setInterval(() => {
     this.renderBalloons();
   }, 2000);
-  
+
   // render the balloons
   this.renderBalloons();
-  
-}
+};
 
-Game.prototype.renderBalloons = function() {
-
-  let index = Math.floor(Math.random() * balloonArray.length);
-  let randomBalloon = balloonArray[index];
-  
+Game.prototype.renderBalloons = function () {
+  const randomBalloon = getRandomBalloon();
   // creates balloon element on screen
   let balloonElement = document.createElement('img');
   balloonElement.src = randomBalloon.imgSrc;
   this.target.appendChild(balloonElement);
-  
-  // adds event listener to balloon that increases or decreases score when clicked 
+
+  // adds event listener to balloon that increases or decreases score when clicked
   balloonElement.addEventListener('click', () => {
     this.balloonClicked(randomBalloon.color, balloonElement);
-  })
-  
-}
+  });
+};
 
-Game.prototype.balloonClicked = function(color, balloonElement) {
-
+Game.prototype.balloonClicked = function (color, balloonElement) {
   // remove balloon from DOM when clicked
   balloonElement.remove();
 
@@ -49,27 +42,23 @@ Game.prototype.balloonClicked = function(color, balloonElement) {
   } else {
     this.score--;
   }
-}
+};
 
-Game.prototype.endGame = function() {
-  
+Game.prototype.endGame = function () {
   // stop rendering balloons
   clearInterval(this.renderBalloonsInterval);
-  
+
   // remove all balloons from DOM
   this.target.innerHTML = '';
-  
+
   // show the user their score
   console.log(this.score);
-  
-}
-
+};
 
 function Balloon(color, imgSrc) {
   this.color = color;
   this.imgSrc = imgSrc;
 }
-
 
 // create new Balloons and add to balloonArray
 // TODO: add event listener to Balloon
@@ -81,10 +70,12 @@ let balloonArray = [
   new Balloon('pink', 'assets/balloon-colors/pink-balloon.png'),
   new Balloon('purple', 'assets/balloon-colors/purple-balloon.png'),
   new Balloon('red', 'assets/balloon-colors/red-balloon.png'),
-  new Balloon('yellow', 'assets/balloon-colors/yellow-balloon.png')
+  new Balloon('yellow', 'assets/balloon-colors/yellow-balloon.png'),
 ];
 
-
-
-const gameInstance = new Game();
+function getRandomBalloon() {
+  let index = Math.floor(Math.random() * balloonArray.length);
+  return balloonArray[index];
+}
+const gameInstance = new Game(getRandomBalloon().color);
 gameInstance.startGame();
