@@ -1,7 +1,8 @@
-function Game(correctColor) {
+function Game(correctColor, location) {
   this.score = 0;
   this.target = document.getElementById('game');
   this.correctColor = correctColor;
+  this.location = location;
 }
 
 Game.prototype.startGame = function () {
@@ -20,16 +21,24 @@ Game.prototype.startGame = function () {
 };
 
 Game.prototype.renderBalloons = function () {
-  const randomBalloon = getRandomBalloon();
-  // creates balloon element on screen
-  let balloonElement = document.createElement('img');
-  balloonElement.src = randomBalloon.imgSrc;
-  this.target.appendChild(balloonElement);
+  for (var i = 0; i < 10; i++) {
+    const randomBalloon = getRandomBalloon();
 
-  // adds event listener to balloon that increases or decreases score when clicked
-  balloonElement.addEventListener('click', () => {
-    this.balloonClicked(randomBalloon.color, balloonElement);
-  });
+    // creates balloon element on screen
+    let balloonElement = document.createElement('img');
+    balloonElement.src = randomBalloon.imgSrc;
+    this.target.appendChild(balloonElement);
+
+    // places balloon element at random location on screen
+    let randomCoordinates = getRandomCoordinates();
+    balloonElement.style.top = randomCoordinates.x + 'px';
+    balloonElement.style.left = randomCoordinates.y + 'px';
+
+    // adds event listener to balloon that increases or decreases score when clicked
+    balloonElement.addEventListener('click', () => {
+      this.balloonClicked(randomBalloon.color, balloonElement);
+    });
+  }
 };
 
 Game.prototype.balloonClicked = function (color, balloonElement) {
@@ -61,7 +70,6 @@ function Balloon(color, imgSrc) {
 }
 
 // create new Balloons and add to balloonArray
-// TODO: add event listener to Balloon
 let balloonArray = [
   new Balloon('blue', 'assets/balloon-colors/blue-balloon.png'),
   new Balloon('green', 'assets/balloon-colors/green-balloon.png'),
@@ -77,5 +85,17 @@ function getRandomBalloon() {
   let index = Math.floor(Math.random() * balloonArray.length);
   return balloonArray[index];
 }
+
+function getRandomCoordinates() {
+  let randomHeight = Math.floor(Math.random() * (window.innerHeight - 100));
+  let randomWidth = Math.floor(Math.random() * (window.innerWidth - 100));
+  return {
+    x: randomHeight,
+    y: randomWidth,
+  };
+}
+
 const gameInstance = new Game(getRandomBalloon().color);
 gameInstance.startGame();
+
+// TODO: generate balloons in random coordinates using Game.prototype.generateRandomCoordinates
