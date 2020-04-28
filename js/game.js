@@ -2,7 +2,7 @@ function Game(correctColor) {
   this.score = 0;
   this.target = document.getElementById('game');
   this.correctColor = correctColor;
-  this.timer = 10;
+  this.timer = 30;
 }
 
 Game.prototype.startGame = function () {
@@ -66,7 +66,7 @@ Game.prototype.endGame = function () {
   // show the user their score
   this.target.innerText = 'Final Score: ' + this.score;
 
-  // TODO: play again button
+  // play again button
   displayPlayAgainButton();
 };
 
