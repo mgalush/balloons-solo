@@ -2,22 +2,22 @@ function Game(correctColor, location) {
   this.score = 0;
   this.target = document.getElementById('game');
   this.correctColor = correctColor;
-  this.location = location;
+  this.timer = 30;
 }
 
 Game.prototype.startGame = function () {
-  // start a timer for game
-  setTimeout(() => {
-    this.endGame();
-  }, 6000);
-
   // start a timer for rendering of balloons
-  this.renderBalloonsInterval = setInterval(() => {
+  this.interval = setInterval(() => {
     this.renderBalloons();
-  }, 2000);
+    this.timer--;
+    this.renderHeaderText();
+    if (this.timer <= 0) {
+      this.endGame();
+    }
+  }, 1000);
 
-  // render the balloons
-  this.renderBalloons();
+  // render header text
+  this.renderHeaderText();
 };
 
 Game.prototype.renderBalloons = function () {
@@ -55,12 +55,12 @@ Game.prototype.balloonClicked = function (color, balloonElement) {
 
 Game.prototype.endGame = function () {
   // stop rendering balloons
-  clearInterval(this.renderBalloonsInterval);
+  clearInterval(this.interval);
 
   // remove all balloons from DOM
   this.target.innerHTML = '';
 
-  // show the user their score
+  // TODO: show the user their score
   console.log(this.score);
 };
 
@@ -87,7 +87,9 @@ function getRandomBalloon() {
 }
 
 function getRandomCoordinates() {
-  let randomHeight = Math.floor(Math.random() * (window.innerHeight - 100));
+  let randomHeight = Math.floor(
+    Math.random() * (window.innerHeight - 100) + 50
+  ); // +50 to account for height of header with score and timer
   let randomWidth = Math.floor(Math.random() * (window.innerWidth - 100));
   return {
     x: randomHeight,
@@ -95,7 +97,34 @@ function getRandomCoordinates() {
   };
 }
 
-const gameInstance = new Game(getRandomBalloon().color);
-gameInstance.startGame();
+Game.prototype.renderHeaderText = function () {
+  // render score on screen
+  document.getElementById('score').textContent = 'Score: ' + this.score;
 
-// TODO: generate balloons in random coordinates using Game.prototype.generateRandomCoordinates
+  // let user know which color balloon to click
+  document.getElementById('color-display').textContent =
+    'Click the ' + this.correctColor + ' balloons';
+
+  // render timer on screen
+  document.getElementById('timer').textContent =
+    '00:' + this.timer.toString().padStart(2, '0');
+};
+
+const gameInstance = new Game(getRandomBalloon().color);
+
+Game.prototype.loadGame = function () {
+  this.target.id = 'instructions';
+  this.target.innerText = 'Click anywhere to begin';
+
+  // clear screen and start game
+  window.addEventListener('click', renderStartText);
+
+  let target = this.target;
+  function renderStartText() {
+    target.innerText = '';
+    gameInstance.startGame();
+    window.removeEventListener('click', renderStartText);
+  }
+};
+
+gameInstance.loadGame();
