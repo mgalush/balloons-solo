@@ -1,8 +1,8 @@
-function Game(correctColor, location) {
+function Game(correctColor) {
   this.score = 0;
   this.target = document.getElementById('game');
   this.correctColor = correctColor;
-  this.timer = 30;
+  this.timer = 10;
 }
 
 Game.prototype.startGame = function () {
@@ -60,7 +60,11 @@ Game.prototype.endGame = function () {
   // remove all balloons from DOM
   this.target.innerHTML = '';
 
+  // remove header from DOM
+  document.getElementById('header').innerHTML = '';
+
   // TODO: show the user their score
+  this.target.innerText = 'Final Score: ' + this.score;
   console.log(this.score);
 };
 
