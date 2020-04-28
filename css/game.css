@@ -21,9 +21,21 @@ img {
 }
 
 #instructions {
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
   width: 50%;
   text-align: center;
   background-color: white;
   font-size: 50px;
+}
+
+#play-again {
+  display: block;
+  margin: 0 auto;
+  height: 10vh;
+  width: 20vw;
+  font-size: 2rem;
+  background-color: red;
+  margin-bottom: 5px;
 }

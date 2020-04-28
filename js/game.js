@@ -63,9 +63,11 @@ Game.prototype.endGame = function () {
   // remove header from DOM
   document.getElementById('header').innerHTML = '';
 
-  // TODO: show the user their score
+  // show the user their score
   this.target.innerText = 'Final Score: ' + this.score;
-  console.log(this.score);
+
+  // TODO: play again button
+  displayPlayAgainButton();
 };
 
 function Balloon(color, imgSrc) {
@@ -100,6 +102,16 @@ function getRandomCoordinates() {
     y: randomWidth,
   };
 }
+
+function displayPlayAgainButton() {
+  let button = document.createElement('button');
+  button.id = 'play-again';
+  button.innerHTML = 'Play again';
+  button.onclick = function () {
+    location.href = '/game.html';
+  };
+  gameInstance.target.appendChild(button);
+};
 
 Game.prototype.renderHeaderText = function () {
   // render score on screen
